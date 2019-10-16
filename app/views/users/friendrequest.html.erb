@@ -1,0 +1,37 @@
+<% if @received.blank? %>
+  <h1> Empty </h1>
+<% else %>
+
+  <h1> Friend Request </h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <% if !current_user?(user) %>
+          <tr>    
+            <% if @received.include?(user) %>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td>
+                <%= link_to t('.show', :default => t("helpers.links.show")),
+                        user_path(user), :class => 'btn btn-default btn-xs' %>
+                <%= link_to "Accept Request", accept_request_path(user),:method => :post ,:class => "btn btn-default btn-xs" %> 
+                <%= link_to "Cancel Request", friendship_path(user),
+                        :method => :delete, :class => 'btn btn-default btn-xs' %>
+              </td>
+            <% end %>
+          </tr> 
+        <% end %> 
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= link_to 'Back', users_path, :class => 'btn btn-default' %>

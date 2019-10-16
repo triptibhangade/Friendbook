@@ -1,0 +1,32 @@
+<% if @friends.blank? %>
+  <h1> You have no friends </h1>
+<% else %>
+  <h1> Friend List </h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <% if !current_user?(user) %>
+          <tr>    
+            <% if @friends.include?(user) %>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td>
+                <%= link_to "Unfriend", friendship_path(user),
+                      :method => :delete, :class => "btn btn-xs btn-danger" %>
+              </td>
+            <% end %>
+          </tr> 
+        <% end %> 
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= link_to 'Back', users_path, :class => 'btn btn-default' %>
